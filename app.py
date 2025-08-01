@@ -120,6 +120,10 @@ def history():
 def settings():
     return render_template("settings.html")
 
+@app.route('/preview')
+def preview():
+    return render_template("preview.html")
+
 
 @socketio.on('generate_cv')
 def handle_generate_cv(text):

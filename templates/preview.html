@@ -6,20 +6,13 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Markdown Preview</title>
+    <title>Aperçu - Markdown Previewer</title>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
     <style type="text/tailwindcss">
-        :root {
-        --primary-color: #141414;
-        --secondary-color: #f3f4f6;
-        --background-color: #ffffff;
-        --text-primary: #141414;
-        --text-secondary: #4b5563;
-        --accent-color: #e5e7eb;
-      }
       body {
         font-family: 'Plus Jakarta Sans', sans-serif;
         @apply bg-[var(--background-color)] text-[var(--text-primary)];
@@ -46,60 +39,59 @@
         <header class="sticky top-0 z-10 bg-white shadow-sm">
             <div class="container mx-auto px-4 py-3">
                 <div class="flex items-center justify-between">
-                    <button class="text-[var(--text-primary)]">
+                    <a href="/history" class="text-[var(--text-primary)]">
                         <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
                         </svg>
-                    </button>
-                    <h1 class="text-xl font-bold text-center flex-1">Markdown Preview</h1>
+                    </a>
+                    <h1 id="preview-title" class="text-xl font-bold text-center flex-1">Aperçu</h1>
                     <div class="w-6"></div>
                 </div>
             </div>
         </header>
         <main class="flex-1 overflow-y-auto bg-gray-50">
-            <div class="container mx-auto p-4">
+            <div id="preview-content" class="container mx-auto p-4">
                 <div class="bg-white rounded-lg shadow-sm">
-                    <pre class="p-4 text-base text-[var(--text-secondary)] whitespace-pre-wrap font-mono"># Heading 1
-This is a paragraph. You can write your text here.
-## Heading 2
-- List item 1
-- List item 2
-- List item 3
-### Heading 3
-`Inline code`
-\`\`\`
-// Code block
-function greet(name) {
-  return "Hello, " + name + "!";
-}
-\`\`\`
-**Bold text**
-*Italic text*
-&gt; Blockquote
-[This is a link](https://example.com)
-            </pre>
+                    <div id="markdown-display" class="p-4 text-base text-[var(--text-primary)] whitespace-pre-wrap font-mono">
+                        <!-- Le contenu sera chargé ici par JavaScript -->
+                    </div>
                 </div>
+            </div>
+            
+            <div id="no-content" class="container mx-auto p-4 text-center text-[var(--text-secondary)]" style="display: none;">
+                <p>Aucun contenu à afficher</p>
+                <a href="/history" class="inline-block mt-4 px-4 py-2 bg-[var(--primary-color)] text-white rounded hover:bg-gray-800">
+                    Retour à l'historique
+                </a>
             </div>
         </main>
         <footer class="bg-white border-t border-gray-200 p-4">
             <div class="container mx-auto">
-                <div class="flex gap-4">
-                    <button class="button_secondary flex-1 flex items-center justify-center gap-2">
+                <div id="preview-actions" class="flex gap-4">
+                    <button id="copy-btn" class="button_secondary flex-1 flex items-center justify-center gap-2">
                         <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M216,32H88a8,8,0,0,0-8,8V88H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V168h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V104h40v64a8,8,0,0,0,8,8h64Zm48-48H104V48H208Z"></path>
                         </svg>
-                        <span>Copy</span>
+                        <span>Copier</span>
                     </button>
-                    <button class="button_primary flex-1 flex items-center justify-center gap-2">
+                    <button id="export-pdf-btn" class="button_primary flex-1 flex items-center justify-center gap-2">
                         <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M224,128a8,8,0,0,1-8,8h-8v40a8,8,0,0,1-8,8H56a8,8,0,0,1-8-8V80a8,8,0,0,1,8-8H96V32a8,8,0,0,1,8-8h88a8,8,0,0,1,5.66,2.34l32,32A8,8,0,0,1,232,64v56h8A8,8,0,0,1,224,128ZM112,80H64V176h88V136h21.66L152,114.34V40h-8v40a8,8,0,0,0,8,8h40v32H120a8,8,0,0,1-8-8ZM216,85.66,194.34,64H168v40h40Z"></path>
+                            <path d="M224,152a8,8,0,0,1-8,8H192v16h16a8,8,0,0,1,0,16H192v16a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8h32A8,8,0,0,1,224,152ZM92,172a28,28,0,0,1-28,28H56v8a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8H64A28,28,0,0,1,92,172Zm-16,0a12,12,0,0,0-12-12H56v24h8A12,12,0,0,0,76,172Zm88,8a36,36,0,0,1-36,36H112a8,8,0,0,1-8-8V152a8,8,0,0,1,8-8h16A36,36,0,0,1,164,180Zm-16,0a20,20,0,0,0-20-20h-8v40h8A20,20,0,0,0,148,180ZM40,112V40A16,16,0,0,1,56,24h96l56,56v32a8,8,0,0,1-16,0V88H152a8,8,0,0,1-8-8V40H56v72a8,8,0,0,1-16,0ZM160,80h28.69L160,51.31Z"></path>
                         </svg>
-                        <span>Share</span>
+                        <span>PDF</span>
+                    </button>
+                    <button id="delete-btn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 flex-1 flex items-center justify-center gap-2">
+                        <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+                        </svg>
+                        <span>Supprimer</span>
                     </button>
                 </div>
             </div>
         </footer>
     </div>
+
+<script src="../static/js/preview.js"></script>
 
 </body>
 
