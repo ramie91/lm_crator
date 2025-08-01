@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Markdown Previewer</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+        --primary-color: #141414;
+        --secondary-color: #f3f4f6;
+        --background-color: #ffffff;
+        --text-primary: #141414;
+        --text-secondary: #4b5563;
+        --accent-color: #e5e7eb;
+      }
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .button_primary {
+        @apply bg-[var(--primary-color)] text-white font-bold py-2 px-4 rounded-md hover:bg-gray-800 focus:outline-none ;
+      }
+      .button_secondary {
+        @apply bg-[var(--secondary-color)] text-[var(--text-primary)] font-bold py-2 px-4 rounded-md hover:bg-gray-200 focus:outline-none ;
+      }
+      .input {
+        @apply bg-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
+      }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--background-color)] text-[var(--text-primary)]">
+    <div class="relative flex size-full min-h-screen flex-col justify-between overflow-x-hidden">
+        <header class="sticky top-0 z-10 bg-white/80 backdrop-blur-sm">
+            <div class="container mx-auto flex items-center justify-between p-4">
+                <h1 class="text-xl font-bold text-[var(--text-primary)]">Markdown Previewer</h1>
+                <button class="flex items-center justify-center rounded-full p-2 transition-colors hover:bg-gray-100">
+                    <svg class="text-[var(--text-secondary)]" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06ZM208,128a80,80,0,1,1-80-80A80,80,0,0,1,208,128Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+        <main id="cv-generator" class="flex-grow container mx-auto px-4 py-8">
+            <div class="flex h-full flex-col">
+                <div class="flex-grow">
+                    <textarea id="input-text" class="input w-full h-full resize-none rounded-lg p-4 text-lg leading-relaxed focus:ring-2 focus:ring-[var(--primary-color)]/50" placeholder="Enter your prompt here..."></textarea>
+                </div>
+                <div class="mt-8">
+                    <button id="generate-button" class="button_primary w-full h-14 text-lg">
+                        <span class="truncate">Générer</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+
+</body>
+
+<script src="/static/js/index.js"></script>
+</html>
+{% endblock %}

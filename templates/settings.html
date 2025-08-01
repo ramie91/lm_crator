@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Paramètres - Aperçu Markdown</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet" />
+    <style type="text/tailwindcss">
+        @layer base {
+            :root {
+                --primary-color: #141414;
+                --secondary-color: #f3f4f6;
+                --background-color: #ffffff;
+                --text-primary: #141414;
+                --text-secondary: #4b5563;
+                --accent-color: #e5e7eb;
+            }
+        }
+        @layer utilities {
+            .body {
+                @apply font-sans bg-[var(--background-color)] text-[var(--text-primary)] rounded-md;
+            }
+            .main_container {
+                @apply container mx-auto px-4 py-8 rounded-md;
+            }
+            .card {
+                @apply bg-white rounded-md shadow-sm p-6;
+            }
+            .button_primary {
+                @apply bg-[var(--primary-color)] text-white font-bold py-2 px-4 rounded-md hover:bg-gray-800 focus:outline-none ;
+            }
+            .button_secondary {
+                @apply bg-[var(--secondary-color)] text-[var(--text-primary)] font-bold py-2 px-4 rounded-md hover:bg-gray-200 focus:outline-none ;
+            }
+            .input {
+                @apply bg-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
+            }
+            .typography_h1 {
+                @apply text-3xl font-bold text-[var(--text-primary)] mb-4;
+            }
+            .typography_h2 {
+                @apply text-2xl font-semibold text-[var(--text-primary)] mb-2;
+            }
+            .typography_body {
+                @apply text-base text-[var(--text-secondary)];
+            }
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="body">
+    <div class="relative flex size-full min-h-screen flex-col justify-between overflow-x-hidden">
+        <div class="flex-grow">
+            <header class="sticky top-0 z-10 flex items-center border-b border-[var(--accent-color)] bg-[var(--background-color)] p-4">
+                <button class="flex size-10 shrink-0 items-center justify-center rounded-full text-[var(--text-primary)] hover:bg-[var(--secondary-color)]">
+                    <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+                    </svg>
+                </button>
+                <h1 class="flex-1 text-center text-lg font-bold text-[var(--text-primary)] pr-10">Paramètres</h1>
+            </header>
+            <main class="main_container pb-24">
+                <section class="mb-8">
+                    <h2 class="px-4 pb-3 pt-5 text-xl font-bold text-[var(--text-primary)]">Affichage</h2>
+                    <div class="divide-y divide-[var(--accent-color)] bg-[var(--background-color)]">
+                        <div class="flex items-center justify-between gap-4 px-4 py-4">
+                            <div class="flex-grow">
+                                <p class="text-base font-medium text-[var(--text-primary)]">Mise en surbrillance de la syntaxe</p>
+                                <p class="typography_body">Activer la mise en surbrillance de la syntaxe Markdown</p>
+                            </div>
+                            <div class="shrink-0">
+                                <label class="relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full">
+                                    <input class="peer sr-only" type="checkbox" />
+                                    <span class="h-full w-full rounded-full bg-[var(--accent-color)] peer-checked:bg-[var(--primary-color)]"></span>
+                                    <span class="absolute left-0.5 top-0.5 h-5 w-5 transform rounded-full bg-white transition-transform peer-checked:translate-x-full"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between gap-4 px-4 py-4">
+                            <div class="flex-grow">
+                                <p class="text-base font-medium text-[var(--text-primary)]">Thème</p>
+                                <p class="typography_body">Choisir le thème d'affichage du Markdown</p>
+                            </div>
+                            <div class="flex shrink-0 items-center gap-2">
+                                <p class="text-base text-[var(--text-secondary)]">Clair</p>
+                                <svg class="text-[var(--text-secondary)]" fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M181.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L164.69,128,98.34,62.34a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,181.66,133.66Z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="mb-8">
+                    <h2 class="px-4 pb-3 pt-5 text-xl font-bold text-[var(--text-primary)]">Partage</h2>
+                    <div class="divide-y divide-[var(--accent-color)] bg-[var(--background-color)]">
+                        <div class="flex items-center justify-between gap-4 px-4 py-4">
+                            <div class="flex-grow">
+                                <p class="text-base font-medium text-[var(--text-primary)]">Options de partage</p>
+                                <p class="typography_body">Définir les options de partage par défaut</p>
+                            </div>
+                            <div class="shrink-0">
+                                <svg class="text-[var(--text-secondary)]" fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M181.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L164.69,128,98.34,62.34a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,181.66,133.66Z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h2 class="px-4 pb-3 pt-5 text-xl font-bold text-[var(--text-primary)]">Aide</h2>
+                    <div class="divide-y divide-[var(--accent-color)] bg-[var(--background-color)]">
+                        <div class="flex items-center justify-between gap-4 px-4 py-4">
+                            <p class="flex-1 text-base font-medium text-[var(--text-primary)]">Aide et support</p>
+                            <div class="shrink-0">
+                                <svg class="text-[var(--text-secondary)]" fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M181.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L164.69,128,98.34,62.34a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,181.66,133.66Z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+</body>
+
+</html>
+{% endblock %}

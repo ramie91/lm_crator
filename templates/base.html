@@ -1,0 +1,47 @@
+
+<!-- templates/base.html -->
+ 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}CV Creator{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #141414;
+            --secondary-color: #f3f4f6;
+            --background-color: #ffffff;
+            --text-primary: #141414;
+            --text-secondary: #4b5563;
+            --accent-color: #e5e7eb;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: max(884px, 100dvh);
+        }
+        .button_primary {
+            @apply bg-[var(--primary-color)] text-white font-bold py-2 px-4 rounded-md hover:bg-gray-800 focus:outline-none ;
+        }
+        .button_secondary {
+            @apply bg-[var(--secondary-color)] text-[var(--text-primary)] font-bold py-2 px-4 rounded-md hover:bg-gray-200 focus:outline-none ;
+        }
+        .input {
+            @apply bg-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
+        }
+    </style>
+</head>
+<body class="bg-[var(--background-color)] text-[var(--text-primary)]">
+    <div class="min-h-screen flex flex-col">
+        <main class="flex-1">
+            {% block content %}{% endblock %}
+        </main>
+        {% block navbar %}{% include 'navbar.html' %}{% endblock %}
+    </div>
+</body>
+</html>
