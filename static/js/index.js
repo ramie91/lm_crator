@@ -39,6 +39,29 @@ socket.on('response', function(data) {
     });
 });
 
+socket.on('pdf_ready', function(data) {
+    console.log("✅ PDF reçu !");
+    const pdfBase64 = data.pdf_base64;
+
+    // Convertir Base64 en Blob
+    const byteCharacters = atob(pdfBase64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+    // Créer un lien de téléchargement
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'mon_cv.pdf';
+    link.click();
+
+    window.URL.revokeObjectURL(link.href);
+});
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const generateButton = document.getElementById('generate-button');
     const inputText = document.getElementById('input-text');

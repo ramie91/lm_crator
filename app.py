@@ -1,3 +1,4 @@
+import base64
 import re
 from flask import Flask, jsonify, render_template, url_for, request, redirect, send_file, make_response
 from flask_socketio import SocketIO, send, emit
@@ -183,13 +184,9 @@ def export_pdf(data):
     HTML(string=html_content).write_pdf(pdf_io)
     pdf_io.seek(0)
 
-    # ⚡️ Renvoie directement la réponse binaire
-    return send_file(
-        pdf_io,
-        as_attachment=True,
-        download_name='generated_cv.pdf',
-        mimetype='application/pdf'
-    )
+    pdf_base64 = base64.b64encode(pdf_io.read()).decode('utf-8')
+
+    emit('pdf_ready', {'pdf_base64': pdf_base64})
 
 
 
