@@ -1,5 +1,5 @@
 import re
-from flask import Flask, jsonify, render_template, url_for, request, redirect
+from flask import Flask, jsonify, render_template, url_for, request, redirect, send_file, make_response
 from flask_socketio import SocketIO, send, emit
 from openai import OpenAI
 import markdown
@@ -179,18 +179,17 @@ def export_pdf(data):
     </html>
     """
 
-    # 3️⃣ Convertir en PDF
     pdf_io = io.BytesIO()
     HTML(string=html_content).write_pdf(pdf_io)
     pdf_io.seek(0)
 
-    # 4️⃣ Sauvegarde temporaire
-    with open('generated_cv.pdf', 'wb') as f:
-        f.write(pdf_io.read())
-
-    pdf_io.seek(0)
-
-    return {'status': 'done', 'url': '/download_cv'}
+    # ⚡️ Renvoie directement la réponse binaire
+    return send_file(
+        pdf_io,
+        as_attachment=True,
+        download_name='generated_cv.pdf',
+        mimetype='application/pdf'
+    )
 
 
 
