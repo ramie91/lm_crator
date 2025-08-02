@@ -116,7 +116,7 @@ function showDeletePopup(id, title) {
     popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
     
     popup.innerHTML = `
-        <div class="bg-white rounded-lg shadow-xl p-6 w-96 max-w-90vw">
+        <div class="bg-[var(--background-color)] rounded-lg shadow-xl p-6 w-96 max-w-90vw">
             <div class="flex items-center mb-4">
                 <div class="flex-shrink-0 w-10 h-10 mx-auto bg-red-100 rounded-full flex items-center justify-center">
                     <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -125,8 +125,8 @@ function showDeletePopup(id, title) {
                 </div>
             </div>
             <div class="text-center">
-                <h3 class="text-lg font-bold text-gray-900 mb-2">Supprimer l'élément</h3>
-                <p class="text-sm text-gray-500 mb-4">
+                <h3 class="text-lg font-bold text-[var(--text-primary)] mb-2">Supprimer l'élément</h3>
+                <p class="text-sm text-[var(--text-secondary)] mb-4">
                     Êtes-vous sûr de vouloir supprimer "<strong>${title}</strong>" ? Cette action est irréversible.
                 </p>
             </div>

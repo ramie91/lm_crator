@@ -90,7 +90,7 @@ socket.on('response', function(data) {
     
     document.getElementById('cv-generator').innerHTML = `
                 <div class="container mx-auto p-4">
-                <div class="bg-white rounded-lg shadow-sm">
+                <div class="bg-[var(--background-color)] border border-[var(--accent-color)] rounded-lg shadow-sm">
                 <pre class="p-4 text-base text-[var(--text-secondary)] whitespace-pre-wrap font-mono">
                 ${data.data}
                             </pre>
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         console.log('Generating CV with text:', text);
-        socket.emit('generate_cv', { text: text, prompt: localStorage.getItem("prompt"), template: localStorage.getItem("template"), socketid: socketid });
+        socket.emit('generate_cv', { text: text, prompt: localStorage.getItem("prompt"), socketid: socketid });
 
         const cvGenerator = document.getElementById('cv-generator');
         cvGenerator.className = 'flex flex-grow flex-col items-center justify-center p-4 text-center';
@@ -192,26 +192,26 @@ function showParametersPopup() {
     popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
     
     popup.innerHTML = `
-        <div class="bg-white rounded-lg shadow-xl p-6 w-96 max-w-90vw">
+        <div class="bg-[var(--background-color)] rounded-lg shadow-xl p-6 w-96 max-w-90vw">
             <div class="flex items-center mb-4">
                 <div class="flex-shrink-0 w-10 h-10 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear text-blue-600" viewBox="0 0 16 16">
                         <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
                         <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
                     </svg>
                 </div>
             </div>
             <div class="text-center">
-                <h3 class="text-lg font-bold text-gray-900 mb-2">Paramètres</h3>
-                <p class="text-sm text-gray-500 mb-4">
+                <h3 class="text-lg font-bold text-[var(--text-primary)] mb-2">Paramètres</h3>
+                <p class="text-sm text-[var(--text-secondary)] mb-4">
                     Modifiez le prompt et le template pour personnaliser la génération.
                 </p>
             </div>
             <div class="flex gap-3 mt-6">
-                <button id="prompt-edit-btn" class="flex-1 bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-300 focus:outline-none">
+                <button id="prompt-edit-btn" class="flex-1 bg-[var(--accent-color)] text-[var(--text-primary)] font-bold py-2 px-4 rounded-md hover:opacity-90 focus:outline-none">
                     Prompt
                 </button>
-                <button id="template-edit-btn" class="flex-1 bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
+                <button id="template-edit-btn" class="button_primary flex-1">
                     Template
                 </button>
             </div>
@@ -245,23 +245,23 @@ function showPromptEditor() {
     popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
     
     popup.innerHTML = `
-        <div class="bg-white rounded-lg shadow-xl max-w-4xl max-h-[90vh] overflow-hidden flex flex-col w-full">
-            <div class="flex items-center justify-between p-4 border-b">
-                <h3 class="text-lg font-bold">Éditeur de Prompt</h3>
-                <button id="close-prompt-editor" class="text-gray-500 hover:text-gray-700">
+        <div class="bg-[var(--background-color)] rounded-lg shadow-xl max-w-4xl max-h-[90vh] overflow-hidden flex flex-col w-full">
+            <div class="flex items-center justify-between p-4 border-b border-[var(--accent-color)]">
+                <h3 class="text-lg font-bold text-[var(--text-primary)]">Éditeur de Prompt</h3>
+                <button id="close-prompt-editor" class="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                     <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                     </svg>
                 </button>
             </div>
             <div class="flex-1 overflow-auto p-4">
-                <textarea id="prompt-textarea" class="w-full h-96 p-3 border border-gray-300 rounded-md font-mono text-sm resize-none focus:outline-none focus:border-blue-500">${localStorage.getItem('prompt') || ''}</textarea>
+                <textarea id="prompt-textarea" class="w-full h-96 p-3 border border-[var(--accent-color)] bg-[var(--background-color)] text-[var(--text-primary)] rounded-md font-mono text-sm resize-none focus:outline-none focus:border-[var(--primary-color)]">${localStorage.getItem('prompt') || ''}</textarea>
             </div>
-            <div class="flex gap-3 p-4 border-t">
-                <button id="reset-prompt-btn" class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-300 focus:outline-none">
+            <div class="flex gap-3 p-4 border-t border-[var(--accent-color)]">
+                <button id="reset-prompt-btn" class="bg-[var(--accent-color)] text-[var(--text-primary)] font-bold py-2 px-4 rounded-md hover:opacity-90 focus:outline-none">
                     Réinitialiser
                 </button>
-                <button id="save-prompt-btn" class="flex-1 bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
+                <button id="save-prompt-btn" class="button_primary flex-1">
                     Sauvegarder
                 </button>
             </div>
@@ -305,23 +305,23 @@ function showTemplateEditor() {
     popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
     
     popup.innerHTML = `
-        <div class="bg-white rounded-lg shadow-xl max-w-4xl max-h-[90vh] overflow-hidden flex flex-col w-full">
-            <div class="flex items-center justify-between p-4 border-b">
-                <h3 class="text-lg font-bold">Éditeur de Template</h3>
-                <button id="close-template-editor" class="text-gray-500 hover:text-gray-700">
+        <div class="bg-[var(--background-color)] rounded-lg shadow-xl max-w-4xl max-h-[90vh] overflow-hidden flex flex-col w-full">
+            <div class="flex items-center justify-between p-4 border-b border-[var(--accent-color)]">
+                <h3 class="text-lg font-bold text-[var(--text-primary)]">Éditeur de Template</h3>
+                <button id="close-template-editor" class="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                     <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                     </svg>
                 </button>
             </div>
             <div class="flex-1 overflow-auto p-4">
-                <textarea id="template-textarea" class="w-full h-96 p-3 border border-gray-300 rounded-md font-mono text-sm resize-none focus:outline-none focus:border-blue-500">${localStorage.getItem('template') || ''}</textarea>
+                <textarea id="template-textarea" class="w-full h-96 p-3 border border-[var(--accent-color)] bg-[var(--background-color)] text-[var(--text-primary)] rounded-md font-mono text-sm resize-none focus:outline-none focus:border-[var(--primary-color)]">${localStorage.getItem('template') || ''}</textarea>
             </div>
-            <div class="flex gap-3 p-4 border-t">
-                <button id="reset-template-btn" class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-300 focus:outline-none">
+            <div class="flex gap-3 p-4 border-t border-[var(--accent-color)]">
+                <button id="reset-template-btn" class="bg-[var(--accent-color)] text-[var(--text-primary)] font-bold py-2 px-4 rounded-md hover:opacity-90 focus:outline-none">
                     Réinitialiser
                 </button>
-                <button id="save-template-btn" class="flex-1 bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
+                <button id="save-template-btn" class="button_primary flex-1">
                     Sauvegarder
                 </button>
             </div>
@@ -407,12 +407,12 @@ function showSavePopup(markdownData) {
     popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
     
     popup.innerHTML = `
-        <div class="bg-white rounded-lg shadow-xl p-6 w-96 max-w-90vw">
+        <div class="bg-[var(--background-color)] rounded-lg shadow-xl p-6 w-96 max-w-90vw">
             <h3 class="text-lg font-bold text-[var(--text-primary)] mb-4">Sauvegarder dans l'historique</h3>
             <input 
                 type="text" 
                 id="save-title" 
-                class="input w-full mb-4" 
+                class="w-full mb-4 p-3 border border-[var(--accent-color)] bg-[var(--background-color)] text-[var(--text-primary)] rounded-md focus:outline-none focus:border-[var(--primary-color)]" 
                 placeholder="Entrez un titre pour cette génération..."
                 maxlength="100"
             >
@@ -489,7 +489,9 @@ function showNotification(message) {
         notification.style.opacity = '0';
         notification.style.transform = 'translateY(-10px)';
         setTimeout(() => {
-            document.body.removeChild(notification);
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
         }, 300);
     }, 3000);
 }

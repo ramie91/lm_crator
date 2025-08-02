@@ -45,7 +45,7 @@ function createHistoryItemHTML(item) {
                     <p class="history_item_date">${item.time}</p>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="viewItem('${item.id}')" class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+                    <button onclick="viewItem('${item.id}')" class="px-3 py-1 button_primary text-white rounded text-sm hover:opacity-90">
                         Voir
                     </button>
                     <button onclick="deleteItem('${item.id}')" class="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600">
@@ -174,7 +174,7 @@ function showDeletePopup(id, title) {
     popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
     
     popup.innerHTML = `
-        <div class="bg-white rounded-lg shadow-xl p-6 w-96 max-w-90vw">
+        <div class="bg-[var(--background-color)] rounded-lg shadow-xl p-6 w-96 max-w-90vw">
             <div class="flex items-center mb-4">
                 <div class="flex-shrink-0 w-10 h-10 mx-auto bg-red-100 rounded-full flex items-center justify-center">
                     <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,13 +183,13 @@ function showDeletePopup(id, title) {
                 </div>
             </div>
             <div class="text-center">
-                <h3 class="text-lg font-bold text-gray-900 mb-2">Supprimer l'élément</h3>
-                <p class="text-sm text-gray-500 mb-4">
+                <h3 class="text-lg font-bold text-[var(--text-primary)] mb-2">Supprimer l'élément</h3>
+                <p class="text-sm text-[var(--text-secondary)] mb-4">
                     Êtes-vous sûr de vouloir supprimer "<strong>${title}</strong>" ? Cette action est irréversible.
                 </p>
             </div>
             <div class="flex gap-3 mt-6">
-                <button id="cancel-delete-btn" class="flex-1 bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-300 focus:outline-none">
+                <button id="cancel-delete-btn" class="flex-1 bg-[var(--accent-color)] text-[var(--text-primary)] font-bold py-2 px-4 rounded-md hover:opacity-90 focus:outline-none">
                     Annuler
                 </button>
                 <button id="confirm-delete-btn" class="flex-1 bg-red-600 text-white font-bold py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none">
