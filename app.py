@@ -124,10 +124,14 @@ def settings():
 def preview():
     return render_template("preview.html")
 
+@app.route('/converter')
+def converter():
+    return render_template("converter.html")
+
 
 @socketio.on('generate_cv')
-def handle_generate_cv(text):
-    print(f'Received generate_cv with data: {text}')
+def handle_generate_cv(data):
+    print(f'Received generate_cv with data: {data}')
 
     client = OpenAI(
         base_url="https://openrouter.ai/api/v1",
@@ -139,11 +143,11 @@ def handle_generate_cv(text):
         messages=[
             {
                 "role": "system",
-                "content": PROMPT
+                "content": data.get('prompt', PROMPT)
             },
             {
                 "role": "user",
-                "content": text['text']
+                "content": data['text']
             }
         ]
     )
@@ -191,6 +195,58 @@ def export_pdf(data):
     pdf_base64 = base64.b64encode(pdf_io.read()).decode('utf-8')
 
     emit('pdf_ready', {'pdf_base64': pdf_base64})
+
+@socketio.on('convert-markdown-pdf')
+def convert_markdown_pdf(data):
+    try:
+        md_text = data['data']  # Contenu Markdown depuis le client
+        filename = data.get('filename', 'document')  # Nom du fichier
+        md_text = br_forcer(md_text)
+
+        # 1️⃣ Markdown → HTML
+        html_body = markdown.markdown(md_text, extensions=['fenced_code', 'tables'])
+
+        # 2️⃣ HTML avec CSS GitHub + font-size custom
+        html_content = f"""
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown-light.min.css">
+            <style>
+            body {{
+                box-sizing: border-box;
+                min-width: 200px;
+                max-width: 800px;
+                margin: auto;
+                padding: 40px;
+            }}
+            .markdown-body {{
+                font-size: 9pt; /* 👈 Forcer la taille de police */
+            }}
+            </style>
+        </head>
+        <body class="markdown-body">
+            {html_body}
+        </body>
+        </html>
+        """
+
+        # 3️⃣ Génération du PDF
+        pdf_io = io.BytesIO()
+        HTML(string=html_content).write_pdf(pdf_io)
+        pdf_io.seek(0)
+
+        pdf_base64 = base64.b64encode(pdf_io.read()).decode('utf-8')
+
+        # 4️⃣ Envoyer le PDF au client
+        emit('converter_pdf_ready', {
+            'pdf_base64': pdf_base64,
+            'filename': filename
+        })
+
+    except Exception as e:
+        print(f"Erreur lors de la conversion PDF: {e}")
+        emit('converter_error', {'error': str(e)})
 
 
 

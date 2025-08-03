@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Convertisseur Markdown vers PDF</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet" />
+    <style type="text/tailwindcss">
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .button_primary {
+        @apply bg-[var(--primary-color)] text-white font-bold py-2 px-4 rounded-md hover:opacity-90 focus:outline-none ;
+      }
+      .button_secondary {
+        @apply bg-[var(--accent-color)] text-[var(--text-primary)] font-bold py-2 px-4 rounded-md hover:opacity-90 focus:outline-none ;
+      }
+      .input {
+        @apply bg-[var(--background-color)] border border-[var(--accent-color)] text-[var(--text-primary)] rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
+      }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--background-color)] text-[var(--text-primary)]">
+    <div class="relative flex size-full min-h-screen flex-col justify-between overflow-x-hidden">
+        <header class="sticky top-0 z-10 bg-[var(--background-color)]/80 backdrop-blur-sm">
+            <div class="container mx-auto flex items-center justify-between p-4">
+                <div class="flex items-center gap-4">
+                    <a href="/" class="flex size-10 shrink-0 items-center justify-center rounded-full text-[var(--text-primary)] hover:bg-[var(--accent-color)]">
+                        <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+                        </svg>
+                    </a>
+                    <h1 class="text-xl font-bold text-[var(--text-primary)]">Convertisseur MD → PDF</h1>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-[var(--background-color)] border border-[var(--accent-color)] rounded-lg shadow-sm p-6">
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-2">Convertisseur Markdown vers PDF</h2>
+                        <p class="text-[var(--text-secondary)]">Collez votre contenu Markdown ci-dessous et générez un PDF professionnel.</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Zone de saisie Markdown -->
+                        <div>
+                            <label for="markdown-input" class="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                                Contenu Markdown
+                            </label>
+                            <textarea 
+                                id="markdown-input" 
+                                class="w-full h-96 p-4 border border-[var(--accent-color)] bg-[var(--background-color)] text-[var(--text-primary)] rounded-md font-mono text-sm resize-none focus:outline-none focus:border-[var(--primary-color)]"
+                                placeholder="Entrez votre contenu Markdown ici...
+
+Exemple :
+# Mon Titre
+## Sous-titre
+
+**Texte en gras** et *texte en italique*
+
+- Liste à puces
+- Élément 2
+
+1. Liste numérotée
+2. Élément 2
+
+[Lien](https://example.com)
+
+> Citation
+
+```
+Code
+```"
+                            ></textarea>
+                        </div>
+
+                        <!-- Nom du fichier -->
+                        <div>
+                            <label for="filename-input" class="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                                Nom du fichier (optionnel)
+                            </label>
+                            <input 
+                                type="text" 
+                                id="filename-input" 
+                                class="w-full p-3 border border-[var(--accent-color)] bg-[var(--background-color)] text-[var(--text-primary)] rounded-md focus:outline-none focus:border-[var(--primary-color)]"
+                                placeholder="mon-document"
+                                maxlength="50"
+                            >
+                            <p class="text-xs text-[var(--text-secondary)] mt-1">Le fichier sera nommé "[nom].pdf" ou "document.pdf" par défaut</p>
+                        </div>
+
+                        <!-- Boutons d'action -->
+                        <div class="flex gap-4">
+                            <button id="clear-btn" class="button_secondary flex items-center gap-2">
+                                <svg fill="currentColor" height="16" viewBox="0 0 256 256" width="16" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+                                </svg>
+                                Effacer
+                            </button>
+                            <button id="generate-pdf-btn" class="button_primary flex-1 flex items-center justify-center gap-2">
+                                <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M224,128a8,8,0,0,1-8,8h-8v40a8,8,0,0,1-8,8H56a8,8,0,0,1-8-8V80a8,8,0,0,1,8-8H96V32a8,8,0,0,1,8-8h88a8,8,0,0,1,5.66,2.34l32,32A8,8,0,0,1,232,64v56h8A8,8,0,0,1,224,128ZM112,80H64V176h88V136h21.66L152,114.34V40h-8v40a8,8,0,0,0,8,8h40v32H120a8,8,0,0,1-8-8ZM216,85.66,194.34,64H168v40h40Z"></path>
+                                </svg>
+                                <span id="btn-text">Générer PDF</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="/static/js/converter.js"></script>
+    <script src="/static/js/base.js"></script>
+</body>
+
+</html>
+{% endblock %}
