@@ -76,6 +76,20 @@ Tu es une IA spécialisée dans la rédaction de lettres de motivation professio
 - Ne génère pas de texte hors de la lettre.
 `
 
+function buildPrompt() {
+    // Récupère le prompt actuel depuis le localStorage
+    let prompt = localStorage.getItem('prompt') || instruction;
+    // Récupère le template actuel depuis le localStorage
+    let template = localStorage.getItem('template') || TEMPLATE;
+
+    // Remplace ou ajoute la section du template dans le prompt
+    // On cherche la ligne qui commence par "- **Template** :" et on la remplace
+    prompt = prompt.replace(/(- \*\*Template\*\* ?:)([\s\S]*?)(- \*\*Informations à utiliser\*\* :)/, 
+        `$1 ${template}\n$3`);
+
+    return prompt;
+}
+
 if(localStorage.getItem("prompt") === null){
     localStorage.setItem("prompt",instruction)
 }
@@ -345,6 +359,8 @@ function showTemplateEditor() {
     document.getElementById('save-template-btn').addEventListener('click', () => {
         const newTemplate = document.getElementById('template-textarea').value;
         localStorage.setItem('template', newTemplate);
+        // Met à jour le prompt avec le nouveau template
+        localStorage.setItem('prompt', buildPrompt(newTemplate));
         document.body.removeChild(popup);
         showNotification('✅ Template sauvegardé!');
     });

@@ -134,12 +134,11 @@ def handle_generate_cv(data):
     print(f'Received generate_cv with data: {data}')
 
     client = OpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=os.getenv("OPENROUTER_API_KEY"),
+        api_key=os.getenv("OPENAI_API_KEY"),
     )
 
     completion = client.chat.completions.create(
-        model="deepseek/deepseek-r1-0528:free",
+        model="gpt-4.1-mini",  # ou "gpt-4.1-mini" si disponible
         messages=[
             {
                 "role": "system",
