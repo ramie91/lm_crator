@@ -7,6 +7,10 @@ import markdown
 from weasyprint import HTML, CSS
 import io
 import os
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+
 TEMPLATE = """**Ramie NASSERALDIN**  
 32 rue du Château d'Eau, 91130 Ris-Orangis  
 📞 06 77 03 26 43  
@@ -136,13 +140,18 @@ def handle_generate_cv(data):
     client = OpenAI(
         api_key=os.getenv("OPENAI_API_KEY"),
     )
+    date_str = datetime.now(ZoneInfo("Europe/Paris")).strftime("%-d %B %Y")
+
+    prompt = data.get('prompt', PROMPT)
+
+    prompt += f"\n\nDate en France : {date_str}"
 
     completion = client.chat.completions.create(
         model="gpt-4.1-mini",  # ou "gpt-4.1-mini" si disponible
         messages=[
             {
                 "role": "system",
-                "content": data.get('prompt', PROMPT)
+                "content": prompt
             },
             {
                 "role": "user",
